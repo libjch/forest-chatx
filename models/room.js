@@ -3,6 +3,8 @@
 function Room(name){
     this.name = name;
     this.users = [];
+    this.messages = [];
+    this.idMessage = 0;
 }
 
 Room.prototype.addUser = function (username) {
@@ -18,6 +20,18 @@ Room.prototype.removeUser = function (username) {
         console.log('cant remove '+username);
         return false;
     }
+}
+
+Room.prototype.addMessage = function (message){
+    this.messages[this.idMessage++] = message;
+}
+
+Room.prototype.getLastMessages = function (number) {
+    if(number<1)
+        return [];
+    if(number>this.messages.length)
+        number = this.messages.length;
+    return this.messages.slice(this.messages.length-number,this.messages.length);
 }
 
 

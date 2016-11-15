@@ -18,6 +18,9 @@ module.exports = function(server,services){
             if(!authenticator.authenticatedRequest(data,callback)) {
                 return;
             }
+
+            services.rooms.addMessageFromUserToRoom(data.message,data.username,data.room);
+
             socket.broadcast.to(data.room).emit('message', data);
             callback({
                 status: 'OK'
@@ -49,19 +52,19 @@ module.exports = function(server,services){
                 return;
             }
             //User is registered
-            var roomObject = services.rooms.addUserToRoom(data.username,data.room);
+            var room = services.rooms.addUserToRoom(data.username,data.room);
 
             //add to client list to handle disconnect
             clients[socket.id] = data.username;
 
             //Join the room-channel on socketio
-            socket.join(roomObject.name);
-            socket.broadcast.to(roomObject.name).emit('joined', data.username);
+            socket.join(room.name);
+            socket.broadcast.to(room.name).emit('joined', data.username);
 
             callback({
                 status: 'OK',
-                users: roomObject.users,
-                messages: []
+                users: room.users,
+                messages: room.getLastMessages(10)
             });
         });
     });

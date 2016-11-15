@@ -1,7 +1,7 @@
 "use strict";
 
-function User(name,password){
-    this.name = name;
+function User(username,password){
+    this.username = username;
     this.password = password;
 }
 

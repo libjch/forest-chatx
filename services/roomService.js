@@ -1,5 +1,6 @@
 'use strict';
 var Room = require("../models/room")
+var Message = require("../models/message")
 
 
 /**
@@ -43,10 +44,17 @@ module.exports = (cache) => {
         return false;
     }
 
+    function addMessageFromUserToRoom(content,username,roomname){
+        var room = getOrCreateRoom(roomname);
+        var message = new Message(username,content);
+        room.addMessage(message);
+    }
+
     return {
         getOrCreateRoom: getOrCreateRoom,
         addUserToRoom: addUserToRoom,
         removeUser: removeUser,
-        removeUserFromRoom: removeUserFromRoom
+        removeUserFromRoom: removeUserFromRoom,
+        addMessageFromUserToRoom: addMessageFromUserToRoom
     }
 }

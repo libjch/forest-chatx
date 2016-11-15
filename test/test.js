@@ -1,6 +1,8 @@
 "use strict";
 
-describe('Launch sub-tests',function () {
+describe('',function () {
+    require("./models/roomTest");
+
     require("./services/roomServiceTest");
     require("./services/userServiceTest");
 });
