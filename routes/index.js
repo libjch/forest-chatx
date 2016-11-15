@@ -1,4 +1,4 @@
-
+"use strict";
 
 module.exports = (services) => {
     const router = require('express').Router();

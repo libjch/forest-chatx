@@ -1,4 +1,6 @@
 $(function() {
+    "use strict";
+
     var messagesList = $("#messages");
     var userList = $("#users");
 

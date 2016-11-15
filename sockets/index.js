@@ -6,7 +6,7 @@ module.exports = function(server,services){
     var clients = {};
 
     io.on('connection', function(socket){
-        console.log('connection event'););
+        console.log('connection event');
 
         socket.on('message', function (message,callback) {
             console.log('message event '+JSON.stringify(message));
