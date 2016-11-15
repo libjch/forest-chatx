@@ -24,7 +24,7 @@ $(function() {
 
     function addMessage(message){
         var messagesBox = $("#messages");
-        $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.content+"</span></li>").appendTo(messagesBox);
+        $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.message+"</span></li>").appendTo(messagesBox);
     }
 
 
@@ -51,16 +51,15 @@ $(function() {
     }
 
 
-    //Send button
+    //Send Message button
     $("#send").click(function () {
-        var message = {
+        const message = {
             username: $("#username").val(),
             message: $("#message").val()
         };
 
-        console.log('Sending message '+message);
         socket.emit("message",message,function(data){
-            console.log('message result: '+JSON.stringify(data));
+            console.log('message result: '+JSON.stringify(data)+' '+JSON.stringify(message));
             if(data && data["status"] == 'OK'){
                 addMessage(message);
             }

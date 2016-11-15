@@ -1,7 +1,5 @@
 'use strict';
 
-var rooms = require("../services/roomService.js");
-
 module.exports = function(server,services){
     var io = require("socket.io")(server);
     io.on('connection', function(socket){
@@ -11,9 +9,14 @@ module.exports = function(server,services){
             console.log('login event')
         });
 
-        socket.on('message', function (message) {
-            console.log('message event');
+        socket.on('message', function (message,callback) {
+            console.log('message event '+JSON.stringify(message));
             socket.broadcast.emit(message);
+
+            callback({
+                status: 'OK'
+            });
+
         });
 
         socket.on('disconnect', function(){
@@ -23,7 +26,7 @@ module.exports = function(server,services){
         socket.on('join', function(options,callback){
             console.log('join event: '+JSON.stringify(options));
 
-            //TODO: check user informations, password etc.
+            //TODO: check user information, password etc.
 
             var roomObject = services.rooms.addUserToRoom(options.room,options.username);
 
