@@ -2,6 +2,7 @@
 
 module.exports = function(server,services){
     var io = require("socket.io")(server);
+
     io.on('connection', function(socket){
         console.log('connection event');
 
@@ -11,7 +12,8 @@ module.exports = function(server,services){
 
         socket.on('message', function (message,callback) {
             console.log('message event '+JSON.stringify(message));
-            socket.broadcast.emit(message);
+
+            socket.broadcast.emit('message', message);
 
             callback({
                 status: 'OK'

@@ -35,10 +35,10 @@ $(function() {
         socket.on('login', function (data) {
             console.log('LOGIN EVENT');
         });
+    });
 
-        socket.on('message', function (data) {
-            console.log('MESSAGE EVENT');
-        });
+    socket.on('message', function (data) {
+        addMessage(data);
     });
 
     var username = Cookies.get("username");
