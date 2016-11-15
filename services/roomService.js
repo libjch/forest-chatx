@@ -1,6 +1,11 @@
 'use strict';
 var Room = require("../models/room")
 
+
+/**
+ * Rooms handling service, use a cache (or a db) in parameter for storage.
+ *
+ * */
 module.exports = (cache) => {
 
     function getOrCreateRoom(name) {

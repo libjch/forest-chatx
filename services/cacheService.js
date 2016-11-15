@@ -1,6 +1,11 @@
 'use strict';
 
 
+/**
+ * Generic Caching service, used as an "in-memory" DB
+ * Will be replaced by a "real db"
+ * */
+
 module.exports = function() {
     let cache = {};
     return {
@@ -16,8 +21,5 @@ module.exports = function() {
         keys: () => {
             return Object.keys(cache);
         },
-        clear: () => {
-            cache = {};
-        }
     }
 }

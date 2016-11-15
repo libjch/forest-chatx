@@ -2,6 +2,9 @@
 var User = require("../models/user")
 var crypto = require('crypto')
 
+/**
+ * User service, create or retrieve a user checking that the passwords match.
+ */
 module.exports = (cache) => {
 
     function encodePassword(password){
