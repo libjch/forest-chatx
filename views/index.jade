@@ -3,15 +3,17 @@ extends layout
 block content
   .container-fluid
     .row.chat.hidden
-      .col-md-12.username
-        p(id="logged-username")
-      .col-md-2.rooms
-        p Rooms
-        ul#rooms
+      .col-md-12.headers
+        .row
+          .col-md-11.username
+            p(id="logged-username")
+          .col-md-1.exit
+            input(type="submit",value="Leave Room",id="leave")
+
       .col-md-2.users
         p Users
         ul#users
-      .col-md-8.chats
+      .col-md-10.chats
         ul.messages#messages
 
         input(type="text",placeholder="Type message here",id="message")

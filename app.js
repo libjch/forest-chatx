@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
 // launch socket.io server
-var io = require("./sockets")(http,services);
+var io = require("./sockets/controller")(http,services);
 
 
 http.listen(port, function(){

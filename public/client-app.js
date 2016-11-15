@@ -6,6 +6,7 @@ $(function() {
 
     function displayMyself(username){
         var myself = $("#logged-username");
+        myself.empty();
         $("<p class='myself'>Hello! You are logged as "+username+"</p>").appendTo(myself);
     }
 
@@ -54,7 +55,8 @@ $(function() {
         removeUser(data);
     });
 
-    /*var username = Cookies.get("username");
+    /* //Cookies handling
+    var username = Cookies.get("username");
     if (username != 'undefined') {
         displayLogin();
         console.log("No Session found");
@@ -66,6 +68,7 @@ $(function() {
 
 
     //Add button hooks:
+
     //Send Message button
     $("#send").click(function () {
         const message = {
@@ -104,6 +107,20 @@ $(function() {
                 alert(data.error);
             }
         });
+    });
+
+
+    //Send Message button
+    $("#leave").click(function () {
+        messagesList.empty();
+        userList.empty();
+        const message = {
+            username: $("#username").val(),
+            room: $("#room").val()
+        };
+        socket.emit("leave",message);
+
+        displayLogin();
     });
 });
 

@@ -37,7 +37,10 @@ module.exports = (cache) => {
     }
 
     function removeUserFromRoom(userName,roomName) {
-        return cache.get(roomName).removeUser(userName);
+        if(cache.get(roomName)){
+            return cache.get(roomName).removeUser(userName);
+        }
+        return false;
     }
 
     return {
