@@ -4,10 +4,10 @@ $(function() {
     var messagesList = $("#messages");
     var userList = $("#users");
 
-    function displayMyself(username){
+    function displayMyself(username,room){
         var myself = $("#logged-username");
         myself.empty();
-        $("<p class='myself'>Hello! You are logged as "+username+"</p>").appendTo(myself);
+        $("<p class='myself'>Hello! You are logged as "+username+" in chatroom "+room+"</p>").appendTo(myself);
     }
 
     function displayChat(){
@@ -109,7 +109,7 @@ $(function() {
             if(data && data["status"] == 'OK'){
                 displayChat();
                 displayUsers(data.users);
-                displayMyself(options.username);
+                displayMyself(options.username,options.room);
                 displayMessages(data.messages);
             }else{
                 alert(data.error);
