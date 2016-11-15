@@ -8,7 +8,7 @@ module.exports = function(server,services){
     var io = require("socket.io")(server);
     var authenticator = require("./authenticator")(services);
 
-    var clients = {}; //Dictionary of known connected users to avoid old-client disconnect events
+    var usernamesPerSockets = {}; //Dictionary of known connected username, to close socket if case of duplicate connections
 
     io.on('connection', function(socket){
         console.log('connection event');
@@ -29,14 +29,14 @@ module.exports = function(server,services){
 
         socket.on('disconnect', function(){
             console.log('disconnect event');
-            var username = clients[socket.id];
+            var username = usernamesPerSockets[socket.id];
             if(username){
                 console.log("Removing "+username+" "+socket);
                 var rooms = services.rooms.removeUser(username);
                 for(let room of rooms){
                     socket.broadcast.to(room).emit('left',username);
                 }
-                delete clients[socket.id];
+                delete usernamesPerSockets[socket.id];
             }
         });
 
@@ -47,7 +47,7 @@ module.exports = function(server,services){
         });
 
         socket.on('join', function(data,callback){
-            console.log('join event: '+JSON.stringify(data));
+            //console.log('join event: '+JSON.stringify(data));
             if(!authenticator.authenticatedRequest(data,callback)) {
                 return;
             }
@@ -55,7 +55,7 @@ module.exports = function(server,services){
             var room = services.rooms.addUserToRoom(data.username,data.room);
 
             //add to client list to handle disconnect
-            clients[socket.id] = data.username;
+            usernamesPerSockets[socket.id] = data.username;
 
             //Join the room-channel on socketio
             socket.join(room.name);

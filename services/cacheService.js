@@ -10,10 +10,7 @@ module.exports = function() {
     let cache = {};
     return {
         get: (key) => {
-            let value = cache[key];
-            if(!value)
-                console.log("Cache miss for key: " + key);
-            return value;
+            return cache[key];
         },
         set: (key,val) => {
             cache[key] = val;

@@ -8,7 +8,9 @@ function Room(name){
 }
 
 Room.prototype.addUser = function (username) {
-    this.users.push(username);
+    if(this.users.indexOf(username)<0){
+        this.users.push(username);
+    }
 }
 
 Room.prototype.removeUser = function (username) {
