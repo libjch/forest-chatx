@@ -78,6 +78,8 @@ $(function() {
             console.log('message result: '+JSON.stringify(data)+' '+JSON.stringify(message));
             if(data && data["status"] == 'OK'){
                 addMessage(message);
+            }else{
+                alert(data.error);
             }
         });
     });
@@ -98,6 +100,8 @@ $(function() {
                 displayChat();
                 displayUsers(data.users);
                 displayMyself(options.username);
+            }else{
+                alert(data.error);
             }
         });
     });
