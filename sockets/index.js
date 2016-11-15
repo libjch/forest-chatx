@@ -23,7 +23,7 @@ module.exports = function(server,services){
         socket.on('join', function(options,callback){
             console.log('join event: '+JSON.stringify(options));
 
-            //var allowed = services.users.checkUserInformations(options);
+            //TODO: check user informations, password etc.
 
             var roomObject = services.rooms.addUserToRoom(options.room,options.username);
 
@@ -31,7 +31,8 @@ module.exports = function(server,services){
 
             callback({
                 status: 'OK',
-                users: roomObject.users
+                users: roomObject.users,
+                messages: []
             });
         });
     });

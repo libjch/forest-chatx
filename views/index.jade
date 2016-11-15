@@ -11,10 +11,14 @@ block content
         ul#users
       .col-md-8.chats
         ul.messages#messages
-          li message1
-          li message2
+          li
+            span.username user:
+            span.content message
+          li
+            span.username user:
+            span.content message
 
-        input(type="text",value="Type message here")
+        input(type="text",placeholder="Type message here")
         input(type="submit",value="Send",id="send")
     .row.login.hidden
       .col-md-12

@@ -22,3 +22,8 @@ div[class^="col-"] {
 html,body,.container {
     height:100%;
 }
+
+span.username {
+    font-weight: bold;
+    padding-right: 10px;
+}

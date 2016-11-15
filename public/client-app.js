@@ -22,6 +22,11 @@ $(function() {
         }
     }
 
+    function addMessage(message){
+        var messagesBox = $("#messages");
+        $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.content+"</span></li>").appendTo(messagesBox);
+    }
+
 
     console.log("Start here!");
 
@@ -46,6 +51,24 @@ $(function() {
     }
 
 
+    //Send button
+    $("#send").click(function () {
+        var message = {
+            username: $("#username").val(),
+            message: $("#message").val()
+        };
+
+        console.log('Sending message '+message);
+        socket.emit("message",message,function(data){
+            console.log('message result: '+JSON.stringify(data));
+            if(data && data["status"] == 'OK'){
+                addMessage(message);
+            }
+        });
+    });
+
+
+    //Join button
     $("#start").click(function () {
         var options = {
             room: $("#room").val(),
@@ -60,9 +83,6 @@ $(function() {
                 displayUsers(data["users"]);
             }
         });
-
-
-
     });
 });
 
