@@ -4,6 +4,18 @@ block content
   h1= title
   p Welcome to #{title}
 
+  .chat.hidden
+      ul.messages
+      input(type="text").inputMessage
+
+  .login.hidden
+      h2 Username
+      input(type="text",id="username").username
+      input(type="hidden",id="room",value="room").room
+      input(type="submit",value="Start",id="start").submit
+
+  script(src="/lib/js.cookie.js")
+  script(src="//code.jquery.com/jquery-latest.js")
   script(src="/socket.io/socket.io.js")
   script(src="/client-app.js")
 
