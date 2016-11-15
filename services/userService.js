@@ -17,12 +17,11 @@ module.exports = (cache) => {
             result = new User(name,hashedPassword);
             cache.set(name, result);
         }else{
-            if(result.password == hashedPassword){
-                return result;
-            }else{
+            if(result.password != hashedPassword){
                 return {error: "Incorrect password"};
             }
         }
+        return result;
     }
 
 

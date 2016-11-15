@@ -43,25 +43,24 @@ module.exports = function(server,services){
                     status: 'KO',
                     error: user.error
                 })
-                return;
+            }else{
+                //User is registered
+
+                var roomObject = services.rooms.addUserToRoom(data.username,data.room);
+
+                //add to client list to handle broadcast
+                clients[socket.id] = data.username;
+
+                socket.join(roomObject.name);
+
+                socket.broadcast.to(roomObject.name).emit('joined', data.username);
+
+                callback({
+                    status: 'OK',
+                    users: roomObject.users,
+                    messages: []
+                });
             }
-
-            //User is registered form this point
-
-            var roomObject = services.rooms.addUserToRoom(data.username,data.room);
-
-            //add to client list to handle broadcast
-            clients[socket.id] = data.username;
-
-            socket.join(roomObject.name);
-
-            socket.broadcast.to(roomObject.name).emit('joined', data.username);
-
-            callback({
-                status: 'OK',
-                users: roomObject.users,
-                messages: []
-            });
         });
     });
     return io;
