@@ -1,12 +1,32 @@
 $(function() {
+
+    function displayChat(){
+        console.log("Display chat");
+        $(".chat").removeClass("hidden");
+        $(".login").addClass("hidden");
+    }
+
+    function displayLogin(){
+        console.log("Display login");
+        $(".login").removeClass("hidden");
+        $(".chat").addClass("hidden");
+    }
+
+    function displayUsers(users) {
+        var list = $("#users");
+
+        list.empty();
+        for(let user of users){
+            console.log(user);
+            $("<li>"+user+"</li>").appendTo(list);
+        }
+    }
+
+
     console.log("Start here!");
 
     var socket = io();
     socket.on('connection', function (socket) {
-        var logged = false;
-        var username;
-        var room;
-
         socket.on('login', function (data) {
             console.log('LOGIN EVENT');
         });
@@ -18,10 +38,10 @@ $(function() {
 
     var username = Cookies.get("username");
     if (username != 'undefined') {
-        $(".login").removeClass("hidden");
+        displayLogin();
         console.log("No Session found");
     } else {
-        $(".chat").removeClass("hidden");
+        displayChat();
         console.log("Session found: " + username);
     }
 
@@ -31,8 +51,18 @@ $(function() {
             room: $("#room").val(),
             username: $("#username").val()
         };
-        console.log(options);
-        socket.emit("join",options);
+
+        console.log('Sending join');
+        socket.emit("join",options,function(data){
+            console.log('join result: '+JSON.stringify(data));
+            if(data && data["status"] == 'OK'){
+                displayChat();
+                displayUsers(data["users"]);
+            }
+        });
+
+
+
     });
 });
 

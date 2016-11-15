@@ -1,18 +1,36 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container-fluid
+    .row.chat.hidden
+      .col-md-2.rooms
+        p Rooms
+        ul#rooms
+      .col-md-2.users
+        p Users
+        ul#users
+      .col-md-8.chats
+        ul.messages#messages
+          li message1
+          li message2
 
-  .chat.hidden
-      ul.messages
-      input(type="text").inputMessage
+        input(type="text",value="Type message here")
+        input(type="submit",value="Send",id="send")
+    .row.login.hidden
+      .col-md-12
+        .row
+          .col-md-2
+            p Username
+          .col-md-10
+            input(type="text",id="username")
+         .row
+           .col-md-2
+             p Room
+           .col-md-10
+             input(type="text",id="room",value="room")
+         .row
+           input(type="submit",value="Start",id="start")
 
-  .login.hidden
-      h2 Username
-      input(type="text",id="username").username
-      input(type="hidden",id="room",value="room").room
-      input(type="submit",value="Start",id="start").submit
 
   script(src="/lib/js.cookie.js")
   script(src="//code.jquery.com/jquery-latest.js")

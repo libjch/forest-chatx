@@ -20,7 +20,7 @@ module.exports = function(server,services){
             console.log('disconnect event');
         });
 
-        socket.on('join', function(options){
+        socket.on('join', function(options,callback){
             console.log('join event: '+JSON.stringify(options));
 
             //var allowed = services.users.checkUserInformations(options);
@@ -29,11 +29,10 @@ module.exports = function(server,services){
 
             console.log('Room object found: '+JSON.stringify(roomObject));
 
-            return {
+            callback({
                 status: 'OK',
                 users: roomObject.users
-
-            };
+            });
         });
     });
     return io;
