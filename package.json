@@ -1,0 +1,24 @@
+{
+  "name": "forest-chatx",
+  "version": "1.0.0",
+  "description": "Small Chat application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/libjch/forest-chatx.git"
+  },
+  "author": "libjch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/libjch/forest-chatx/issues"
+  },
+  "homepage": "https://github.com/libjch/forest-chatx#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "jade": "^1.11.0",
+    "socket.io": "^1.5.1"
+  }
+}
