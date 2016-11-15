@@ -37,7 +37,15 @@ module.exports = function(server,services){
         socket.on('join', function(data,callback){
             console.log('join event: '+JSON.stringify(data));
 
-            var user = services.username.getOrCreateUser(data.username,data.password);
+            if(!data.username || !data.password || data.username.length < 1 || data.password.length < 1){
+                callback({
+                    status: 'KO',
+                    error: 'Invalid username/password format'
+                })
+                return;
+            }
+
+            var user = services.users.getOrCreateUser(data.username,data.password);
             if(user.error){
                 callback({
                     status: 'KO',

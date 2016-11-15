@@ -70,6 +70,7 @@ $(function() {
     $("#send").click(function () {
         const message = {
             username: $("#username").val(),
+            password: $("#password").val(),
             message: $("#message").val(),
             room: $("#room").val()
         };
@@ -86,7 +87,8 @@ $(function() {
     $("#start").click(function () {
         var options = {
             room: $("#room").val(),
-            username: $("#username").val()
+            username: $("#username").val(),
+            password: $("#password").val()
         };
 
         console.log('Sending join');
