@@ -6,11 +6,7 @@ module.exports = function(server,services){
     var clients = {};
 
     io.on('connection', function(socket){
-        console.log('connection event');
-
-        socket.on('login', function () {
-            console.log('login event')
-        });
+        console.log('connection event'););
 
         socket.on('message', function (message,callback) {
             console.log('message event '+JSON.stringify(message));
@@ -41,7 +37,17 @@ module.exports = function(server,services){
         socket.on('join', function(data,callback){
             console.log('join event: '+JSON.stringify(data));
 
-            //TODO: check user information, password etc.
+            var user = services.username.getOrCreateUser(data.username,data.password);
+            if(user.error){
+                callback({
+                    status: 'KO',
+                    error: user.error
+                })
+                return;
+            }
+
+            //User is registered form this point
+
             var roomObject = services.rooms.addUserToRoom(data.username,data.room);
 
             //add to client list to handle broadcast

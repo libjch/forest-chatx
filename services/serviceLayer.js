@@ -1,9 +1,14 @@
 'use strict';
 module.exports = (dir) => {
-    const cache = require('./cacheService')();
-    const rooms = require('./roomService')(cache);
+    const roomsCache = require('./cacheService')();
+    const userCache = require('./cacheService')();
+
+    const rooms = require('./roomService')(roomsCache);
+    const users = require('./userService')(userCache);
+
     return {
-        //No need to return cache
-        rooms
+        //No need to return caches
+        rooms,
+        users
     };
 }
