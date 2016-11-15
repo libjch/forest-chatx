@@ -1,4 +1,11 @@
 $(function() {
+    var messagesList = $("#messages");
+    var userList = $("#users");
+
+    function displayMyself(username){
+        var myself = $("#logged-username");
+        $("<p class='myself'>Hello! You are logged as "+username+"</p>").appendTo(myself);
+    }
 
     function displayChat(){
         console.log("Display chat");
@@ -13,51 +20,56 @@ $(function() {
     }
 
     function displayUsers(users) {
-        var list = $("#users");
-
-        list.empty();
+        userList.empty();
         for(let user of users){
-            console.log(user);
-            $("<li>"+user+"</li>").appendTo(list);
+            addUser(user)
         }
     }
 
     function addMessage(message){
-        var messagesBox = $("#messages");
-        $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.message+"</span></li>").appendTo(messagesBox);
+        $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.message+"</span></li>").appendTo(messagesList);
     }
 
-
-    console.log("Start here!");
+    function addUser(username){
+        $("<li id='user-"+username+"'>"+username+"</li>").appendTo(userList);
+        $("<li><span class='event'>"+username+" has joined</span>").appendTo(messagesList);
+    }
+    function removeUser(username){
+        $("#user-"+username).remove();
+        $("<li><span class='event'>"+username+" has left</span>").appendTo(messagesList);
+    }
 
     var socket = io();
-    socket.on('connection', function (socket) {
-        socket.on('login', function (data) {
-            console.log('LOGIN EVENT');
-        });
-    });
 
+    //Socket.io event hooks:
     socket.on('message', function (data) {
         addMessage(data);
     });
+    socket.on('joined', function (data) {
+        addUser(data);
+    });
+    socket.on('left', function (data) {
+        removeUser(data);
+    });
 
-    var username = Cookies.get("username");
+    /*var username = Cookies.get("username");
     if (username != 'undefined') {
         displayLogin();
         console.log("No Session found");
     } else {
         displayChat();
         console.log("Session found: " + username);
-    }
+    }*/
+    displayLogin();
 
 
+    //Add button hooks:
     //Send Message button
     $("#send").click(function () {
         const message = {
             username: $("#username").val(),
             message: $("#message").val()
         };
-
         socket.emit("message",message,function(data){
             console.log('message result: '+JSON.stringify(data)+' '+JSON.stringify(message));
             if(data && data["status"] == 'OK'){
@@ -80,6 +92,7 @@ $(function() {
             if(data && data["status"] == 'OK'){
                 displayChat();
                 displayUsers(data["users"]);
+                displayMyself(options.username);
             }
         });
     });

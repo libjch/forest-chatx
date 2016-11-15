@@ -27,3 +27,8 @@ span.username {
     font-weight: bold;
     padding-right: 10px;
 }
+
+span.event {
+    color: gray;
+    text-align: right;
+}

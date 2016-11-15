@@ -13,6 +13,9 @@ module.exports = function() {
         set: (key,val) => {
             cache[key] = val;
         },
+        keys: () => {
+            return Object.keys(cache);
+        },
         clear: () => {
             cache = {};
         }

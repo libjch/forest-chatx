@@ -13,16 +13,29 @@ module.exports = (cache) => {
         return result;
     }
 
-    function addUserToRoom(roomName, userName) {
+    function addUserToRoom(userName, roomName) {
         console.log("Adding "+userName+" to "+ roomName);
         var room = getOrCreateRoom(roomName);
         room.addUser(userName);
         return room;
     }
 
-    return {
-        addUserToRoom: (roomName, userName) => {
-           return addUserToRoom(roomName,userName);
+    function removeUser(userName){
+        console.log(cache.keys());
+        for(let key of cache.keys()){
+            console.log("Removing in "+key);
+            cache.get(key).removeUser(userName);
         }
+    }
+
+    function removeUserFromRoom(userName,roomName) {
+        return cache.get(roomName).removeUser(userName);
+    }
+
+    return {
+        getOrCreateRoom: getOrCreateRoom,
+        addUserToRoom: addUserToRoom,
+        removeUser: removeUser,
+        removeUserFromRoom: removeUserFromRoom
     }
 }

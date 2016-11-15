@@ -3,6 +3,8 @@ extends layout
 block content
   .container-fluid
     .row.chat.hidden
+      .col-md-12.username
+        p(id="logged-username")
       .col-md-2.rooms
         p Rooms
         ul#rooms
@@ -11,12 +13,6 @@ block content
         ul#users
       .col-md-8.chats
         ul.messages#messages
-          li
-            span.username user:
-            span.content message
-          li
-            span.username user:
-            span.content message
 
         input(type="text",placeholder="Type message here",id="message")
         input(type="submit",value="Send",id="send")
