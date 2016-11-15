@@ -1,8 +1,8 @@
 "use strict";
 
-function Message(username,content){
+function Message(username,message){
     this.username = username;
-    this.content = content;
+    this.message = message;
 }
 
 module.exports = Message;

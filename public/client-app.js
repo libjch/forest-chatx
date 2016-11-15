@@ -25,7 +25,14 @@ $(function() {
     function displayUsers(users) {
         userList.empty();
         for(let user of users){
-            addUser(user)
+            addUser(user);
+        }
+    }
+
+    function displayMessages(messages) {
+        messagesList.empty();
+        for(let message of messages){
+            addMessage(message);
         }
     }
 
@@ -103,6 +110,7 @@ $(function() {
                 displayChat();
                 displayUsers(data.users);
                 displayMyself(options.username);
+                displayMessages(data.messages);
             }else{
                 alert(data.error);
             }

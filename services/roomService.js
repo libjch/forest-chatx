@@ -44,10 +44,10 @@ module.exports = (cache) => {
         return false;
     }
 
-    function addMessageFromUserToRoom(content,username,roomname){
+    function addMessageFromUserToRoom(message,username,roomname){
         var room = getOrCreateRoom(roomname);
-        var message = new Message(username,content);
-        room.addMessage(message);
+        var messageObject = new Message(username,message);
+        room.addMessage(messageObject);
     }
 
     return {
