@@ -4,7 +4,6 @@ var Room = require("../models/room")
 module.exports = (cache) => {
 
     function getOrCreateRoom(name) {
-        console.log("calling getData with key " + name)
         let result = cache.get(name);
         if (!result) {
             result = new Room(name);
