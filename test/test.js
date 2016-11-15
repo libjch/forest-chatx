@@ -4,9 +4,7 @@ var assert = require('assert');
 const cache = require('../services/cacheService')();
 const roomService = require('../services/roomService')(cache);
 
-//Sample unit test
-
-
+//Room service unit-testing
 describe('Room Service', function () {
     describe('Cache Service usage', function () {
         it('Create a new room and add/remove a user', function () {
