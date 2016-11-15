@@ -1,11 +1,9 @@
 "use strict";
 
-var Room = function(name){
+function Room(name){
     this.name = name;
+    this.users = [];
 }
-
-Room.prototype.name = '';
-Room.prototype.users = {};
 
 Room.prototype.addUser = function (username) {
     this.users.push(username);

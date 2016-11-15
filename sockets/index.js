@@ -23,11 +23,17 @@ module.exports = function(server,services){
         socket.on('join', function(options){
             console.log('join event: '+JSON.stringify(options));
 
-            var roomObject = services.rooms.getOrCreateRoom(options.room);
+            //var allowed = services.users.checkUserInformations(options);
+
+            var roomObject = services.rooms.addUserToRoom(options.room,options.username);
 
             console.log('Room object found: '+JSON.stringify(roomObject));
 
-            return "ok";
+            return {
+                status: 'OK',
+                users: roomObject.users
+
+            };
         });
     });
     return io;
