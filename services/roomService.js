@@ -21,11 +21,15 @@ module.exports = (cache) => {
     }
 
     function removeUser(userName){
+        var rooms = [];
         console.log(cache.keys());
         for(let key of cache.keys()){
             console.log("Removing in "+key);
-            cache.get(key).removeUser(userName);
+            if(cache.get(key).removeUser(userName)){
+                rooms.push(key);
+            }
         }
+        return rooms;
     }
 
     function removeUserFromRoom(userName,roomName) {

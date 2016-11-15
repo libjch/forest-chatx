@@ -68,7 +68,8 @@ $(function() {
     $("#send").click(function () {
         const message = {
             username: $("#username").val(),
-            message: $("#message").val()
+            message: $("#message").val(),
+            room: $("#room").val()
         };
         socket.emit("message",message,function(data){
             console.log('message result: '+JSON.stringify(data)+' '+JSON.stringify(message));
@@ -91,7 +92,7 @@ $(function() {
             console.log('join result: '+JSON.stringify(data));
             if(data && data["status"] == 'OK'){
                 displayChat();
-                displayUsers(data["users"]);
+                displayUsers(data.users);
                 displayMyself(options.username);
             }
         });

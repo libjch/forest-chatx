@@ -14,7 +14,7 @@ module.exports = function(server,services){
 
         socket.on('message', function (message,callback) {
             console.log('message event '+JSON.stringify(message));
-            socket.broadcast.emit('message', message);
+            socket.broadcast.to(message.room).emit('message', message);
             callback({
                 status: 'OK'
             });
@@ -26,29 +26,30 @@ module.exports = function(server,services){
 
             if(username){
                 console.log("Removing "+username+" "+socket);
-                services.rooms.removeUser(username);
-                socket.broadcast.emit('left',username);
+                var rooms = services.rooms.removeUser(username);
+                for(let room of rooms){
+                    socket.broadcast.to(room).emit('left',username);
+                }
             }
         });
 
         socket.on('leave', function (data) {
             services.rooms.removeUserFromRoom(data.room,data.username);
-            socket.broadcast.emit('left',data.username);
+            socket.broadcast.to(data.room).emit('left',data.username);
         });
 
         socket.on('join', function(data,callback){
             console.log('join event: '+JSON.stringify(data));
 
             //TODO: check user information, password etc.
-
             var roomObject = services.rooms.addUserToRoom(data.username,data.room);
-
-            console.log('Room object found: '+JSON.stringify(roomObject));
 
             //add to client list to handle broadcast
             clients[socket.id] = data.username;
 
-            socket.broadcast.emit('joined', data.username);
+            socket.join(roomObject.name);
+
+            socket.broadcast.to(roomObject.name).emit('joined', data.username);
 
             callback({
                 status: 'OK',
