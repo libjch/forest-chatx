@@ -42,7 +42,7 @@ module.exports = function(server,services){
 
         socket.on('leave', function (data) {
             console.log('leave event: '+JSON.stringify(data));
-            services.rooms.removeUserFromRoom(data.room,data.username);
+            services.rooms.removeUserFromRoom(data.username,data.room);
             socket.broadcast.to(data.room).emit('left',data.username);
         });
 
