@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = (services) => {
+module.exports = () => {
     const router = require('express').Router();
 
     /* GET home page. */

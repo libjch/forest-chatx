@@ -8,7 +8,7 @@ var app = express();
 var http = require('http').Server(app);
 
 var services = require('./services/serviceLayer')();
-var index = require('./routes/index')(services);
+var index = require('./routes/index')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
