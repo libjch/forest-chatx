@@ -7,20 +7,21 @@ a {
     color: #00B7FF;
 }
 
+ul {
+    list-style-type: none;
+}
 
 /* bootstrap grid debug*/
 div[class="row"] {
     border: 1px dotted rgba(0, 0, 0, 0.5);
 }
-
+/*
 div[class^="col-"] {
     background-color: rgba(255, 0, 0, 0.2);
-}
+}*/
 
-
-/* bootstrap full height  http://stackoverflow.com/questions/19089384/twitter-bootstrap-3-two-columns-full-height */
-html,body,.container {
-    height:100%;
+div.container-fluid{
+    background-color: lightblue;
 }
 
 span.username {
@@ -30,5 +31,21 @@ span.username {
 
 span.event {
     color: gray;
-    text-align: right;
+}
+
+div.chats {
+    overflow: auto;
+    height: 300px;
+}
+
+div.main-area{
+    height: 340px;
+}
+
+input,p,ul{
+    margin: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
+}
+div.bottom-bar{
+    height: 40px;
 }

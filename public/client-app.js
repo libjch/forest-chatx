@@ -38,15 +38,23 @@ $(function() {
 
     function addMessage(message){
         $("<li><span class='username'>"+message.username+": </span><span class='content'>"+message.message+"</span></li>").appendTo(messagesList);
+        scrollToBot();
     }
 
     function addUser(username){
         $("<li id='user-"+username+"'>"+username+"</li>").appendTo(userList);
         $("<li><span class='event'>"+username+" has joined</span>").appendTo(messagesList);
+        scrollToBot();
     }
     function removeUser(username){
         $("#user-"+username).remove();
         $("<li><span class='event'>"+username+" has left</span>").appendTo(messagesList);
+        scrollToBot();
+    }
+
+    function scrollToBot(){
+        var scrollArea = $("div.chats");
+        scrollArea.scrollTop(scrollArea.prop('scrollHeight'));
     }
 
     var socket = io();
@@ -62,16 +70,17 @@ $(function() {
         removeUser(data);
     });
 
-    /* //Cookies handling
+    //Cookies handling
     var username = Cookies.get("username");
     if (username != 'undefined') {
-        displayLogin();
-        console.log("No Session found");
-    } else {
-        displayChat();
-        console.log("Session found: " + username);
-    }*/
-    displayLogin();
+        $("#username").val(username);
+    }
+    var room = Cookies.get("room");
+    if(room != 'undefined'){
+        $("#room").val(room);
+    }
+
+
 
 
     //Add button hooks:
@@ -111,12 +120,14 @@ $(function() {
                 displayUsers(data.users);
                 displayMyself(options.username,options.room);
                 displayMessages(data.messages);
+                Cookies.set("username",options.username);
+                Cookies.set("room",options.room);
+
             }else{
                 alert(data.error);
             }
         });
     });
-
 
     //Send Message button
     $("#leave").click(function () {
@@ -127,8 +138,9 @@ $(function() {
             room: $("#room").val()
         };
         socket.emit("leave",message);
-
         displayLogin();
     });
+
+    displayLogin();
 });
 

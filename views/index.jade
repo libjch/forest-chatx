@@ -5,35 +5,36 @@ block content
     .row.chat.hidden
       .col-md-12.headers
         .row
-          .col-md-11.username
+          .col-md-10.username
             p(id="logged-username")
-          .col-md-1.exit
+          .col-md-2.exit
             input(type="submit",value="Leave Room",id="leave")
 
-      .col-md-2.users
+      .col-md-3.users
         p Users
         ul#users
-      .col-md-10.chats
-        ul.messages#messages
-
-        input(type="text",placeholder="Type message here",id="message")
-        input(type="submit",value="Send",id="send")
+      .col-md-9.main-area
+        .chats
+          ul.messages#messages
+        .bottom-bar
+          input(type="text",placeholder="Type message here",id="message")
+          input(type="submit",value="Send",id="send")
     .row.login.hidden
       .col-md-12
         .row
           .col-md-2
             p Username
-          .col-md-10
+          .col-md-2
             input(type="text",id="username")
         .row
           .col-md-2
             p Password
-          .col-md-10
+          .col-md-2
             input(type="password",id="password")
         .row
           .col-md-2
             p Room
-          .col-md-10
+          .col-md-2
             input(type="text",id="room",value="room")
         .row
           input(type="submit",value="Start",id="start")
