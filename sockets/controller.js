@@ -14,7 +14,7 @@ module.exports = function(server,services){
         console.log('connection event');
 
         socket.on('message', function (data,callback) {
-            console.log('message event'));
+            console.log('message event');
             authenticator.authenticatedRequest(data,function (err) {
                 if(err){
                    callback({
