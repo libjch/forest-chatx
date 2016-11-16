@@ -17,17 +17,6 @@ module.exports = (cache) => {
         }
     }
 
-    function removeUser(room,username) {
-        var index = room.users.indexOf(username);
-        if(index>=0){
-            console.log('removing '+username);
-            room.users.splice(index,1);
-            cache.set(room.name, room);
-        }else{
-            console.log('cant remove '+username);
-        }
-    }
-
     function addMessage(room,message){
         if(room.messages.length>10){
             room.messages = room.messages.slice(1,10);

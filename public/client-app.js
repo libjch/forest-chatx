@@ -4,7 +4,8 @@ $(function() {
     var messagesList = $("#messages");
     var userList = $("#users");
 
-    function displayMyself(username,room){
+    //Usefull jQuery display/hide/add  methods for  chats/users/login pages
+    function displayGreetings(username,room){
         var myself = $("#logged-username");
         myself.empty();
         $("<p class='myself'>Hello! You are logged as "+username+" in chatroom "+room+"</p>").appendTo(myself);
@@ -28,7 +29,6 @@ $(function() {
             addUser(user);
         }
     }
-
     function displayMessages(messages) {
         messagesList.empty();
         for(let message of messages){
@@ -57,11 +57,10 @@ $(function() {
         scrollArea.scrollTop(scrollArea.prop('scrollHeight'));
     }
 
+    //Start socket.io client here
     var socket = io();
 
-    //Socket.io event hooks:
     socket.on('message', function (data) {
-        console.log("Message received "+JSON.stringify(data));
         addMessage(data);
     });
     socket.on('joined', function (data) {
@@ -82,10 +81,7 @@ $(function() {
     }
 
 
-
-
     //Add button hooks:
-
     //Send Message button
     $("#send").click(function () {
         const message = {
@@ -95,7 +91,6 @@ $(function() {
             room: $("#room").val()
         };
         socket.emit("message",message,function(data){
-            console.log('message result: '+JSON.stringify(data)+' '+JSON.stringify(message));
             if(data && data["status"] == 'OK'){
                 addMessage(message);
             }else{
@@ -112,14 +107,11 @@ $(function() {
             username: $("#username").val(),
             password: $("#password").val()
         };
-
-        console.log('Sending join');
         socket.emit("join",options,function(data){
-            console.log('join result: '+JSON.stringify(data));
             if(data && data["status"] == 'OK'){
                 displayChat();
                 displayUsers(data.users);
-                displayMyself(options.username,options.room);
+                displayGreetings(options.username,options.room);
                 displayMessages(data.messages);
                 Cookies.set("username",options.username);
                 Cookies.set("room",options.room);
@@ -130,7 +122,7 @@ $(function() {
         });
     });
 
-    //Send Message button
+    //Leave room button
     $("#leave").click(function () {
         messagesList.empty();
         userList.empty();

@@ -20,7 +20,7 @@ describe('User Service:', function () {
                 assert(value.username == 'user1');
             });
         });
-        it('Fail get user wrong password', function () {
+        it('Fail get user with wrong password', function () {
             userService.getOrCreateUser('user1','password2',function (err, value) {
                 assert(err);
             });

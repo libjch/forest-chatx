@@ -14,7 +14,7 @@ module.exports = function(server,services){
         console.log('connection event');
 
         socket.on('message', function (data,callback) {
-            console.log('message event '+JSON.stringify(data));
+            console.log('message event'));
             authenticator.authenticatedRequest(data,function (err) {
                 if(err){
                    callback({
@@ -46,7 +46,7 @@ module.exports = function(server,services){
         });
 
         socket.on('leave', function (data) {
-            console.log('leave event: '+JSON.stringify(data));
+            console.log('leave event');
             services.rooms.removeUserFromRoom(data.username,data.room);
             socket.broadcast.to(data.room).emit('left',data.username);
         });
