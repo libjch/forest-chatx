@@ -6,10 +6,9 @@ This app is tested with nodejs version 6.7.0.
 
 ##Installation & Launch
 `node install`
+
 `node start`
 
-And that's it :)
- 
 You can now connect to the chat by just browsing your default node url:port
 (example: [http://localhost:3000](http://localhost:3000))
 
