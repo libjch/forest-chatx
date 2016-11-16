@@ -17,6 +17,13 @@ You can now connect to the chat by just browsing your default node url:port
 Default users/rooms data is saved "in memory - lost on reboot", but you can also use a Redis cache by providing the URL as environment variable
 `REDIS_URL`
 
+##Improvements
+Future work should include
+* Better UI
+* Handling multiple connections using the same username
+* Tabs to join multiple rooms 
+
+
 ##Documentation
 These articles were worth reading while building this application.
 
