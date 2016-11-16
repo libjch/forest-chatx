@@ -11,14 +11,27 @@ module.exports = function(prefix) {
     var client = require('redis').createClient(process.env.REDIS_URL);
 
     return {
-        get: (key) => {
-            return JSON.parse(client.get(prefix+key));
+        get: (key,callback) => {
+            client.get(prefix+key,function (err, value) {
+                if(err){
+                    callback(err, null);
+                }else{
+                    callback(null,JSON.parse(value));
+                }
+            });
         },
         set: (key,val) => {
             client.set(prefix+key,JSON.stringify(val));
         },
-        keys: () => {
-            return client.keys('KEYS '+prefix+'*');
+        keys: (callback) => {
+            return client.keys(prefix+'*',function (err, values) {
+                if(err){
+                    callback(err, null);
+                }else{
+                    values = values.map(function(v){ return v.slice(prefix.length); });
+                    callback(values);
+                }
+            });
         },
     }
 }

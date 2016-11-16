@@ -13,18 +13,21 @@ module.exports = (cache) => {
             .digest("hex").toString('base64');
     }
 
-    function getOrCreateUser(username,password) {
+    function getOrCreateUser(username,password,callback) {
         var hashedPassword = encodePassword(password);
-        let result = cache.get(username);
-        if (!result) {
-            result = new User(username,hashedPassword);
-            cache.set(username, result);
-        }else{
-            if(result.password != hashedPassword){
-                return {error: "Incorrect password"};
+        cache.get(username,function (err, value) {
+            if(!value){
+                value = new User(username,hashedPassword);
+                cache.set(username, value);
+                callback(null, value);
+            }else{
+                if(value.password != hashedPassword){
+                    callback("Incorrect password",null);
+                }else{
+                    callback(null,value);
+                }
             }
-        }
-        return result;
+        });
     }
 
 

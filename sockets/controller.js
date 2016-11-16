@@ -15,15 +15,19 @@ module.exports = function(server,services){
 
         socket.on('message', function (data,callback) {
             console.log('message event '+JSON.stringify(data));
-            if(!authenticator.authenticatedRequest(data,callback)) {
-                return;
-            }
-
-            services.rooms.addMessageFromUserToRoom(data.message,data.username,data.room);
-
-            socket.broadcast.to(data.room).emit('message', data);
-            callback({
-                status: 'OK'
+            authenticator.authenticatedRequest(data,function (err) {
+                if(err){
+                   callback({
+                       status:'KO',
+                       error: err
+                   })
+                }else{
+                    services.rooms.addMessageFromUserToRoom(data.message,data.username,data.room);
+                    socket.broadcast.to(data.room).emit('message', {message: data.message,room: data.room,username: data.username});
+                    callback({
+                        status: 'OK'
+                    });
+                }
             });
         });
 
@@ -32,11 +36,12 @@ module.exports = function(server,services){
             var username = usernamesPerSockets[socket.id];
             if(username){
                 console.log("Removing "+username+" "+socket);
-                var rooms = services.rooms.removeUser(username);
-                for(let room of rooms){
-                    socket.broadcast.to(room).emit('left',username);
-                }
-                delete usernamesPerSockets[socket.id];
+                services.rooms.removeUser(username,function (rooms) {
+                    for(let room of rooms){
+                        socket.broadcast.to(room).emit('left',username);
+                    }
+                    delete usernamesPerSockets[socket.id];
+                });
             }
         });
 
@@ -47,24 +52,28 @@ module.exports = function(server,services){
         });
 
         socket.on('join', function(data,callback){
-            //console.log('join event: '+JSON.stringify(data));
-            if(!authenticator.authenticatedRequest(data,callback)) {
-                return;
-            }
-            //User is registered
-            var room = services.rooms.addUserToRoom(data.username,data.room);
+            authenticator.authenticatedRequest(data,function (err) {
+                if(err){
+                    callback({
+                        status:'KO',
+                        error: err
+                    })
+                }else {
+                    //User is registered
+                    services.rooms.addUserToRoom(data.username, data.room,function (room) {
+                        //add to client list to handle disconnect
+                        usernamesPerSockets[socket.id] = data.username;
+                        //Join the room-channel on socketio
+                        socket.join(room.name);
+                        socket.broadcast.to(room.name).emit('joined', data.username);
+                        callback({
+                            status: 'OK',
+                            users: room.users,
+                            messages: room.messages
+                        });
 
-            //add to client list to handle disconnect
-            usernamesPerSockets[socket.id] = data.username;
-
-            //Join the room-channel on socketio
-            socket.join(room.name);
-            socket.broadcast.to(room.name).emit('joined', data.username);
-
-            callback({
-                status: 'OK',
-                users: room.users,
-                messages: room.getLastMessages(10)
+                    });
+                }
             });
         });
     });

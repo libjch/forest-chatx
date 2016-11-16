@@ -61,6 +61,7 @@ $(function() {
 
     //Socket.io event hooks:
     socket.on('message', function (data) {
+        console.log("Message received "+JSON.stringify(data));
         addMessage(data);
     });
     socket.on('joined', function (data) {
