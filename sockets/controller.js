@@ -1,14 +1,17 @@
 'use strict';
 
 /**
- * Socket.io controller, handle events and dispatch to services
+ * Socket.io controller, roles are:
+ * Registers to messages,
+ * Verify authentication for join & message
+ * Broadcast & answers messages to clients,
  */
 module.exports = function(server,services){
 
     var io = require("socket.io")(server);
     var authenticator = require("./authenticator")(services);
 
-    var usernamesPerSockets = {}; //Dictionary of known connected username, to close socket if case of duplicate connections
+    var usernamesPerSockets = {}; //Dictionary of known connected username, to leave rooms on disconnect event
 
     io.on('connection', function(socket){
         console.log('connection event');

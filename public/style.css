@@ -42,6 +42,9 @@ input,p,ul{
     margin: 5px 5px 5px 5px;
     padding: 5px 5px 5px 5px;
 }
+input#message{
+    min-width: 300px;
+}
 div.bottom-bar{
     height: 40px;
 }
