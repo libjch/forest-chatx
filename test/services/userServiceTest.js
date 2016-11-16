@@ -9,15 +9,21 @@ const userService = require('../../services/userService')(cache);
 describe('User Service:', function () {
     describe('Cache Service usage:', function () {
         it('Create a new user', function () {
-            console.log("ABRA")
-            console.log(userService.getOrCreateUser('user1','password1'));
-            assert(userService.getOrCreateUser('user1','password1').username);
+            userService.getOrCreateUser('user1','password1',function (err, value) {
+                assert(!err);
+                assert(value.username == 'user1');
+            });
         });
-        it('Retrieve user', function () {
-            assert(userService.getOrCreateUser('user1','password1').username);
+        it('Retrieve same user', function () {
+            userService.getOrCreateUser('user1','password1',function (err, value) {
+                assert(!err);
+                assert(value.username == 'user1');
+            });
         });
-        it('Fail get user', function () {
-            assert(userService.getOrCreateUser('user1','password2').error);
+        it('Fail get user wrong password', function () {
+            userService.getOrCreateUser('user1','password2',function (err, value) {
+                assert(err);
+            });
         });
     });
 
