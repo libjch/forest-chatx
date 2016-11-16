@@ -9,14 +9,14 @@
 module.exports = function() {
     let cache = {};
     return {
-        get: (key) => {
-            return cache[key];
+        get: (key,callback) => {
+            callback(null,cache[key]);
         },
         set: (key,val) => {
             cache[key] = val;
         },
-        keys: () => {
-            return Object.keys(cache);
+        keys: (callback) => {
+            return callback(Object.keys(cache));
         },
     }
 }
