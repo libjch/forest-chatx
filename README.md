@@ -14,11 +14,11 @@ You can now connect to the chat by just browsing your default node url:port
 (example: [http://localhost:3000](http://localhost:3000))
 
 ##Redis cache
-Default users/rooms storage is "in memory", but you can also use a Redis cache by providing as environment variable
+Default users/rooms data is saved "in memory - lost on reboot", but you can also use a Redis cache by providing the URL as environment variable
 `REDIS_URL`
 
 ##Documentation
-These articles were quiete usefull in order to build this application.
+These articles were worth reading while building this application.
 
 * Service layer architecture
 https://github.com/snielsson/simple-service-layer-architecture-for-node-express-apps/blob/master/README.md
