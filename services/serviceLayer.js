@@ -7,8 +7,8 @@
 module.exports = (dir) => {
 
     if(process.env.REDIS_URL){
-        var roomsCache = require('./redisCache')("rooms-");
-        var usersCache = require('./redisCache')("users-");
+        var roomsCache = require('./redisCacheService')("rooms-");
+        var usersCache = require('./redisCacheService')("users-");
     }else{
         var roomsCache = require('./cacheService')();
         var usersCache = require('./cacheService')();
